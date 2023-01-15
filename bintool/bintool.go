@@ -19,6 +19,8 @@ import (
 	"time"
 
 	"github.com/cheggaaa/pb/v3"
+	"github.com/magefile/mage/mg"
+	"github.com/magefile/mage/sh"
 	"github.com/mattn/go-isatty"
 	"github.com/princjef/mageutil/shellcmd"
 )
@@ -242,6 +244,36 @@ func WithVersionCmd(cmd string) Option {
 		t.versionCmd = cmd
 		return nil
 	}
+}
+
+func WithGoBinFolder() Option {
+	return func(t *BinTool) error {
+		gobin, err := GoBin()
+		t.folder = gobin
+		return err
+	}
+}
+
+func GoBin() (string, error) {
+	gocmd := mg.GoCmd()
+
+	// use GOBIN if set in the environment, otherwise fall back to first path
+	// in GOPATH environment string
+	gobin, err := sh.Output(gocmd, "env", "GOBIN")
+	if err != nil {
+		return "", fmt.Errorf("can't determine GOBIN: %v", err)
+	}
+
+	if gobin == "" {
+		gopath, err := sh.Output(gocmd, "env", "GOPATH")
+		if err != nil {
+			return "", fmt.Errorf("can't determine GOPATH: %v", err)
+		}
+		paths := strings.Split(gopath, string([]rune{os.PathListSeparator}))
+		gobin = filepath.Join(paths[0], "bin")
+	}
+
+	return gobin, nil
 }
 
 func resolveTemplate(templateString string, tmplData templateData) (string, error) {
