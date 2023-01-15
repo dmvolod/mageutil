@@ -19,8 +19,6 @@ import (
 	"time"
 
 	"github.com/cheggaaa/pb/v3"
-	"github.com/magefile/mage/mg"
-	"github.com/magefile/mage/sh"
 	"github.com/mattn/go-isatty"
 	"github.com/princjef/mageutil/shellcmd"
 )
@@ -262,20 +260,19 @@ func WithGoBinFolder() Option {
 // GoBin returns the value of the GOBIN environment variable.
 // If it's not set, then the path from the GOPATH environment variable joined with the bin directory.
 func GoBin() (string, error) {
-	gocmd := mg.GoCmd()
-
 	// use GOBIN if set in the environment, otherwise fall back to the first path in GOPATH environment string
-	gobin, err := sh.Output(gocmd, "env", "GOBIN")
+	bin, err := shellcmd.Command("go env GOBIN").Output()
+	gobin := string(bin)
 	if err != nil {
 		return "", fmt.Errorf("can't determine GOBIN: %v", err)
 	}
 
 	if gobin == "" {
-		gopath, err := sh.Output(gocmd, "env", "GOPATH")
+		gopath, err := shellcmd.Command("go env GOPATH").Output()
 		if err != nil {
 			return "", fmt.Errorf("can't determine GOPATH: %v", err)
 		}
-		paths := strings.Split(gopath, string([]rune{os.PathListSeparator}))
+		paths := strings.Split(string(gopath), string([]rune{os.PathListSeparator}))
 		gobin = filepath.Join(paths[0], "bin")
 	}
 
