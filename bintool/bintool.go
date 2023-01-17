@@ -260,19 +260,20 @@ func WithGoBinFolder() Option {
 // GoBin returns the value of the GOBIN environment variable.
 // If it's not set, then the path from the GOPATH environment variable joined with the bin directory.
 func GoBin() (string, error) {
-	// use GOBIN if set in the environment, otherwise fall back to the first path in GOPATH environment string
+	// use GOBIN if set in the environment
 	bin, err := shellcmd.Command("go env GOBIN").Output()
-	gobin := string(bin)
+	gobin := strings.TrimSpace(string(bin))
 	if err != nil {
 		return "", fmt.Errorf("can't determine GOBIN: %v", err)
 	}
 
+	// otherwise fall back to the first path in GOPATH environment string
 	if gobin == "" {
 		gopath, err := shellcmd.Command("go env GOPATH").Output()
 		if err != nil {
 			return "", fmt.Errorf("can't determine GOPATH: %v", err)
 		}
-		paths := strings.Split(string(gopath), string([]rune{os.PathListSeparator}))
+		paths := strings.Split(strings.TrimSpace(string(gopath)), string([]rune{os.PathListSeparator}))
 		gobin = filepath.Join(paths[0], "bin")
 	}
 
