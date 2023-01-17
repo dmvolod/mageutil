@@ -244,6 +244,42 @@ func WithVersionCmd(cmd string) Option {
 	}
 }
 
+// WithGoBinFolder defines a golang binary location path where the tool is expected to exist
+// and where it should be installed if desired.
+func WithGoBinFolder() Option {
+	return func(t *BinTool) error {
+		gobin, err := GoBin()
+		if err != nil {
+			return err
+		}
+		t.folder = gobin
+		return nil
+	}
+}
+
+// GoBin returns the value of the GOBIN environment variable.
+// If it's not set, then the path from the GOPATH environment variable joined with the bin directory.
+func GoBin() (string, error) {
+	// use GOBIN if set in the environment
+	bin, err := shellcmd.Command("go env GOBIN").Output()
+	gobin := strings.TrimSpace(string(bin))
+	if err != nil {
+		return "", fmt.Errorf("can't determine GOBIN: %v", err)
+	}
+
+	// otherwise fall back to the first path in GOPATH environment string
+	if gobin == "" {
+		gopath, err := shellcmd.Command("go env GOPATH").Output()
+		if err != nil {
+			return "", fmt.Errorf("can't determine GOPATH: %v", err)
+		}
+		paths := strings.Split(strings.TrimSpace(string(gopath)), string([]rune{os.PathListSeparator}))
+		gobin = filepath.Join(paths[0], "bin")
+	}
+
+	return gobin, nil
+}
+
 func resolveTemplate(templateString string, tmplData templateData) (string, error) {
 	tmpl, err := template.New("cmd").Parse(templateString)
 	if err != nil {

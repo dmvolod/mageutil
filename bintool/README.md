@@ -85,6 +85,7 @@ If your archive and/or binary files use different extensions than the default on
 
 ## Index
 
+- [func GoBin() (string, error)](<#func-gobin>)
 - [type BinTool](<#type-bintool>)
   - [func Must(t *BinTool, err error) *BinTool](<#func-must>)
   - [func New(command, version, url string, opts ...Option) (*BinTool, error)](<#func-new>)
@@ -97,8 +98,17 @@ If your archive and/or binary files use different extensions than the default on
   - [func WithArchiveExt(ext string) Option](<#func-witharchiveext>)
   - [func WithBinExt(ext string) Option](<#func-withbinext>)
   - [func WithFolder(folder string) Option](<#func-withfolder>)
+  - [func WithGoBinFolder() Option](<#func-withgobinfolder>)
   - [func WithVersionCmd(cmd string) Option](<#func-withversioncmd>)
 
+
+## func [GoBin](<https://github.com/princjef/mageutil/blob/master/bintool/bintool.go#L262>)
+
+```go
+func GoBin() (string, error)
+```
+
+GoBin returns the value of the GOBIN environment variable. If it's not set, then the path from the GOPATH environment variable joined with the bin directory.
 
 ## type [BinTool](<https://github.com/princjef/mageutil/blob/master/bintool/bintool.go#L33-L39>)
 
@@ -203,6 +213,14 @@ func WithFolder(folder string) Option
 ```
 
 WithFolder defines a custom folder path where the tool is expected to exist and where it should be installed if desired. Paths will be normalized to the operating system automatically, so unix\-style paths are recommended.
+
+### func [WithGoBinFolder](<https://github.com/princjef/mageutil/blob/master/bintool/bintool.go#L249>)
+
+```go
+func WithGoBinFolder() Option
+```
+
+WithGoBinFolder defines a golang binary location path where the tool is expected to exist and where it should be installed if desired.
 
 ### func [WithVersionCmd](<https://github.com/princjef/mageutil/blob/master/bintool/bintool.go#L240>)
 
