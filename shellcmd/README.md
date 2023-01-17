@@ -39,13 +39,13 @@ out, err := shellcmd.Command(`go test ./...`).Output()
   - [func (c Command) Run() error](<#func-command-run>)
 
 
-## func [RunAll](<https://github.com/princjef/mageutil/blob/master/shellcmd/shellcmd.go#L61>)
+## func [RunAll](<https://github.com/princjef/mageutil/blob/master/shellcmd/shellcmd.go#L65>)
 
 ```go
 func RunAll(commands ...Command) error
 ```
 
-RunAll executes all of the provided commands in sequence, only executing the next command if the previous command succeeded. If any of the commands fail, the rest are not executed and the error is returned.
+RunAll executes all the provided commands in sequence, only executing the next command if the previous command succeeded. If any of the commands fail, the rest are not executed and the error is returned.
 
 ## type [Command](<https://github.com/princjef/mageutil/blob/master/shellcmd/shellcmd.go#L14>)
 

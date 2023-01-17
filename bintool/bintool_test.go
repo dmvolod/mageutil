@@ -9,23 +9,23 @@ import (
 )
 
 func TestGoBin(t *testing.T) {
-	is := is.New(t)
+	isg := is.New(t)
 	wd, err := os.Getwd()
-	is.NoErr(err)
+	isg.NoErr(err)
 
 	tests := map[string]struct {
 		env      string
-		path     string
+		value    string
 		expected string
 	}{
 		"with GOBIN specified": {
 			env:      "GOBIN",
-			path:     filepath.Join(wd, "gobin"),
+			value:    filepath.Join(wd, "gobin"),
 			expected: filepath.Join(wd, "gobin"),
 		},
 		"with GOPATH specified": {
 			env:      "GOPATH",
-			path:     wd,
+			value:    wd,
 			expected: filepath.Join(wd, "bin"),
 		},
 	}
@@ -33,7 +33,9 @@ func TestGoBin(t *testing.T) {
 	for cmd, tt := range tests {
 		t.Run(cmd, func(t *testing.T) {
 			defer os.Unsetenv(tt.env)
-			is.NoErr(os.Setenv(tt.env, tt.path))
+
+			is := is.New(t)
+			is.NoErr(os.Setenv(tt.env, tt.value))
 			gobin, err := GoBin()
 			is.NoErr(err)
 			is.Equal(gobin, tt.expected)

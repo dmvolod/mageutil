@@ -35,7 +35,11 @@ func (c Command) Output() ([]byte, error) {
 		return nil, err
 	}
 
-	return cmd.Output()
+	out, err := cmd.Output()
+	if ee, ok := err.(*exec.ExitError); ok {
+		return nil, fmt.Errorf("%s", ee.Stderr)
+	}
+	return out, err
 }
 
 func (c Command) cmd() (*exec.Cmd, error) {
@@ -55,7 +59,7 @@ func (c Command) cmd() (*exec.Cmd, error) {
 	return cmd, nil
 }
 
-// RunAll executes all of the provided commands in sequence, only executing the
+// RunAll executes all the provided commands in sequence, only executing the
 // next command if the previous command succeeded. If any of the commands fail,
 // the rest are not executed and the error is returned.
 func RunAll(commands ...Command) error {
