@@ -33,6 +33,7 @@ func TestCommandOutput(t *testing.T) {
 			if tt.expected == "" {
 				is.NoErr(err)
 			} else {
+				println(err.Error())
 				is.True(strings.Contains(err.Error(), tt.expected))
 			}
 		})
