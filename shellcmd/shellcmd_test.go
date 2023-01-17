@@ -18,7 +18,7 @@ func TestCommandOutput(t *testing.T) {
 		},
 		"unexpected command": {
 			command:  "go1",
-			expected: "executable file not found in $PATH",
+			expected: "executable file not found",
 		},
 		"incorrect command": {
 			command:  "go dd",
