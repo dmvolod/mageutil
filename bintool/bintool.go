@@ -9,7 +9,6 @@ import (
 	"fmt"
 	"html/template"
 	"io"
-	"io/ioutil"
 	"net/http"
 	"os"
 	"os/exec"
@@ -210,6 +209,19 @@ func WithFolder(folder string) Option {
 	}
 }
 
+// WithGoBinFolder defines a golang binary location path where the tool is expected to exist
+// and where it should be installed if desired.
+func WithGoBinFolder() Option {
+	return func(t *BinTool) error {
+		gobin, err := GoBin()
+		if err != nil {
+			return err
+		}
+		t.folder = gobin
+		return nil
+	}
+}
+
 // WithArchiveExt defines a custom extension to use when identifying an archive
 // via the ArchiveExt template variable. The default archive extension is
 // .tar.gz except for Windows, where it is .zip.
@@ -244,17 +256,27 @@ func WithVersionCmd(cmd string) Option {
 	}
 }
 
-// WithGoBinFolder defines a golang binary location path where the tool is expected to exist
-// and where it should be installed if desired.
-func WithGoBinFolder() Option {
+// WithOsSubstitution allows to map runtime.GOOS value with the substitution map.
+func WithOsSubstitution(subst map[string]string) Option {
 	return func(t *BinTool) error {
-		gobin, err := GoBin()
-		if err != nil {
-			return err
-		}
-		t.folder = gobin
+		t.tmplData.GOOS = substitute(t.tmplData.GOOS, subst)
 		return nil
 	}
+}
+
+// WithArchSubstitution allows to map runtime.GOARCH value with the substitution map.
+func WithArchSubstitution(subst map[string]string) Option {
+	return func(t *BinTool) error {
+		t.tmplData.GOARCH = substitute(t.tmplData.GOARCH, subst)
+		return nil
+	}
+}
+
+func substitute(val string, subst map[string]string) string {
+	if find, ok := subst[val]; ok {
+		return find
+	}
+	return val
 }
 
 // GoBin returns the value of the GOBIN environment variable.
@@ -309,7 +331,7 @@ func (t *BinTool) installBinary() error {
 		return fmt.Errorf("bintool: unable to create destination folder %s: %w", t.folder, err)
 	}
 
-	if err := ioutil.WriteFile(t.tmplData.FullCmd, data, 0755); err != nil {
+	if err := os.WriteFile(t.tmplData.FullCmd, data, 0755); err != nil {
 		return fmt.Errorf("bintool: unable to write executable file %s: %w", t.tmplData.FullCmd, err)
 	}
 
