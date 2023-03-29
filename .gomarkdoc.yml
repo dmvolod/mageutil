@@ -1,5 +1,5 @@
 output: "{{.Dir}}/README.md"
 repository:
-  url: https://github.com/princjef/mageutil
-  defaultBranch: master
+  url: https://github.com/dmvolod/mageutil
+  defaultBranch: fork
   directory: .

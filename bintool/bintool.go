@@ -18,8 +18,8 @@ import (
 	"time"
 
 	"github.com/cheggaaa/pb/v3"
+	"github.com/dmvolod/mageutil/shellcmd"
 	"github.com/mattn/go-isatty"
-	"github.com/princjef/mageutil/shellcmd"
 )
 
 type (

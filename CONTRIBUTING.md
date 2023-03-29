@@ -7,7 +7,7 @@ the [issues][] section of the repository to open an issue. Some guidelines:
 
 - Do a check of the existing issues (both open and closed) to see if anyone had
   the same issue/request. If you find something, feel free to add your voice to
-  the conversation if there's something new to add or or [give the issue a
+  the conversation if there's something new to add or [give the issue a
   thumbs up][github reactions] to show you have the same issue/request.
 
 - Please include the version of Aster that you are using. If you're not on the
@@ -90,8 +90,8 @@ documentation for this repository has been regenerated:
 mage doc
 ```
 
-[issues]: https://github.com/princjef/mageutil/issues
-[new pull request]: https://github.com/princjef/mageutil/compare
+[issues]: https://github.com/dmvolod/mageutil/issues
+[new pull request]: https://github.com/dmvolod/mageutil/compare
 [github reactions]: https://blog.github.com/2016-03-10-add-reactions-to-pull-requests-issues-and-comments/
 [github fork]: https://help.github.com/articles/fork-a-repo
 [golang]: https://golang.org/

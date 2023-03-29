@@ -4,8 +4,8 @@
 package main
 
 import (
-	"github.com/princjef/mageutil/bintool"
-	"github.com/princjef/mageutil/shellcmd"
+	"github.com/dmvolod/mageutil/bintool"
+	"github.com/dmvolod/mageutil/shellcmd"
 )
 
 var (

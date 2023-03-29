@@ -3,7 +3,7 @@
 # shellcmd
 
 ```go
-import "github.com/princjef/mageutil/shellcmd"
+import "github.com/dmvolod/mageutil/shellcmd"
 ```
 
 Package shellcmd provides utilites to define and execute shell commands.
@@ -39,7 +39,7 @@ out, err := shellcmd.Command(`go test ./...`).Output()
   - [func (c Command) Run() error](<#func-command-run>)
 
 
-## func [RunAll](<https://github.com/princjef/mageutil/blob/master/shellcmd/shellcmd.go#L65>)
+## func [RunAll](<https://github.com/dmvolod/mageutil/blob/fork/shellcmd/shellcmd.go#L65>)
 
 ```go
 func RunAll(commands ...Command) error
@@ -47,7 +47,7 @@ func RunAll(commands ...Command) error
 
 RunAll executes all the provided commands in sequence, only executing the next command if the previous command succeeded. If any of the commands fail, the rest are not executed and the error is returned.
 
-## type [Command](<https://github.com/princjef/mageutil/blob/master/shellcmd/shellcmd.go#L14>)
+## type [Command](<https://github.com/dmvolod/mageutil/blob/fork/shellcmd/shellcmd.go#L14>)
 
 Command defines a command which can be defined and run with output piped to stdout/stderr.
 
@@ -55,7 +55,7 @@ Command defines a command which can be defined and run with output piped to stdo
 type Command string
 ```
 
-### func \(Command\) [Output](<https://github.com/princjef/mageutil/blob/master/shellcmd/shellcmd.go#L32>)
+### func \(Command\) [Output](<https://github.com/dmvolod/mageutil/blob/fork/shellcmd/shellcmd.go#L32>)
 
 ```go
 func (c Command) Output() ([]byte, error)
@@ -63,7 +63,7 @@ func (c Command) Output() ([]byte, error)
 
 Output executes the command, capturing its stdout and stderr into a \[\]byte, which is returned when the command completes.
 
-### func \(Command\) [Run](<https://github.com/princjef/mageutil/blob/master/shellcmd/shellcmd.go#L18>)
+### func \(Command\) [Run](<https://github.com/dmvolod/mageutil/blob/fork/shellcmd/shellcmd.go#L18>)
 
 ```go
 func (c Command) Run() error
