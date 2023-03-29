@@ -5,8 +5,8 @@
 
 # mageutil
 
->NOTE: This is maintained fork of the [mageutil](https://github.com/princjef/mageutil.git) repository and will be maintained
-> until all PRs are merged into the original repository!!!
+>NOTE: This is fork of the [mageutil](https://github.com/princjef/mageutil.git) repository and will be maintained
+>until all PRs are merged into the original repository!!!
 
 Set of utilities to make working with the [mage][] build system more seamless.
 Each utility is in a subpackage of this one. You can install all of the
